@@ -3,6 +3,8 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import config from '../../config'
+import Decision from '../Decision/Decision'
+import DecisionsBlock from '../DecisionsBlock/DecisionsBlock'
 import s from './mainblock.module.scss'
 
 export default function MainBlock() {
@@ -52,10 +54,11 @@ export default function MainBlock() {
     if (comment !== 0) {
       axios.get(`${config.API}/control/decisions/getByComment?id=${comment}`).then(({ data }) => {
         setDecisions(data)
+        console.log(decisions)
       })
       axios.get(`${config.API}/control/comments/getById?id=${comment}`).then(({ data }) => {
         if (data.train !== '') {
-          setCommentText(`${data.comment} для локомотива ${data.train}`)
+          setCommentText(`«${data.comment}» для локомотива «${data.train}»`)
         } else {
           setCommentText(`${data.comment}`)
         }
@@ -94,6 +97,16 @@ export default function MainBlock() {
           user.permissions > 1 ? <Link href="/panel/comment">Добавить замечание</Link> : null
         }
       </div>
+      {
+        decisions ? 
+        <DecisionsBlock commentText={comment_text}>
+          {
+            // @ts-ignore
+            decisions.map(e => e.hidden !== 'hidden' && <Decision author={e.by_name} uid={e.uid} key={e.uid} image={e.photo}>{e.decision}</Decision>)
+          }
+        </DecisionsBlock>
+        : null
+      }
     </>
   )
 }
