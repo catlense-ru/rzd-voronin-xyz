@@ -3,11 +3,11 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import MainBlock from '../components/MainForm/MainBlock'
+import JoinForm from '../components/JoinForm/JoinForm'
 import config from '../config'
 import MainLayout from '../layouts/MainLayout'
 
-const Home: NextPage = () => {
+const Join: NextPage = () => {
 
   const dispatch = useDispatch()
   useEffect(() => {
@@ -21,14 +21,14 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Главная страница</title>
+        <title>Вход</title>
       </Head>
       <MainLayout>
-        <MainBlock />
+        <JoinForm />
       </MainLayout>
     
     </>
   )
 }
 
-export default Home
+export default Join

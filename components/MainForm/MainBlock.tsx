@@ -20,6 +20,8 @@ export default function MainBlock() {
 
   useEffect(() => {
     axios.get(`${config.API}/control/systems/getAll`).then(({ data }) => {
+      if(data.status == 'error') return;
+
       data.sort((a: any, b: any) => {
         if (a.name.toLowerCase() < b.name.toLowerCase()) {
           return -1;
@@ -36,6 +38,8 @@ export default function MainBlock() {
   useEffect(() => {
     if (system !== 0) {
       axios.get(`${config.API}/control/comments/getBySystem?id=${system}`).then(({ data }) => {
+        if(data.status == 'error') return;
+        
         data.sort((a: any, b: any) => {
           if (a.comment.toLowerCase() < b.comment.toLowerCase()) {
             return -1;
@@ -53,10 +57,14 @@ export default function MainBlock() {
   useEffect(() => {
     if (comment !== 0) {
       axios.get(`${config.API}/control/decisions/getByComment?id=${comment}`).then(({ data }) => {
+        if(data.status == 'error') return;
+
         setDecisions(data)
         console.log(decisions)
       })
       axios.get(`${config.API}/control/comments/getById?id=${comment}`).then(({ data }) => {
+        if(data.status == 'error') return;
+
         if (data.train !== '') {
           setCommentText(`«${data.comment}» для локомотива «${data.train}»`)
         } else {
